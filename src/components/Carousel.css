@@ -1,0 +1,5 @@
+.carousel .slick-slider .slick-list {
+  overflow: unset;
+  overflow-x:hidden;
+  padding:2rem 0.7rem;
+}

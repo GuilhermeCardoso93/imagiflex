@@ -5,6 +5,8 @@ import logo from "../assets/imagiflix.png";
 import { faSearch, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import user from "../assets/user.jpg";
 
+import './NavBar.css';
+
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleClick = () => {
