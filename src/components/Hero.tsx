@@ -14,12 +14,13 @@ const Hero = ({ title = "X-men - Days of Future Past", score = 10 }) => {
   };
 
   return (
-    <header className="relative min-h-screen">
+    <header className="box-border relative min-h-screen -mb-32">
       <img
-        className="object-cover object-center h-full w-full"
+        className="object-cover object-center h-auto w-full"
         src={placeholder}
         alt="Filme em destaque"
       />
+      <div className="absolute  left-0 bottom-0 w-full h-full bg-gradient-to-b from-transparent to-black">
       <article className="absolute bottom-0 mb-64 px-8">
         <p className="text-3xl ">Assista Agora:</p>
         <h2 className="text-6xl font-bold">{title}</h2>
@@ -38,6 +39,7 @@ const Hero = ({ title = "X-men - Days of Future Past", score = 10 }) => {
           <FontAwesomeIcon className='mr-1' icon={faPlus} /> Minha Lista
         </button>
       </article>
+      </div>
     </header>
   );
 };
