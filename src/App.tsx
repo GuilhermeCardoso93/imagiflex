@@ -7,8 +7,9 @@ import Hero from './components/Hero';
 const App = () => {
   return (
     <div className=" bg-black text-white m-auto antialised font-sans">
-      <NavBar/>
       <Hero/>
+      <NavBar/>
+   
     </div>
   );
 }
