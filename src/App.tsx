@@ -1,20 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import CONST from './data/contants';
+import CONST from "./data/constants";
 
-import Hero from './components/Hero';
-import NavBar from './components/NavBar';
-import Carousel from './components/Carousel';
-import Footer from './components/Footer';
+import Loading from "./components/Loading";
+import Hero from "./components/Hero";
+import NavBar from "./components/NavBar";
+import Carousel from "./components/Carousel";
+import Footer from "./components/Footer";
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const App = () => {
   const { URL, APISTRING } = CONST;
 
-  const [movies, setMovies] = useState();
-  const [series, setSeries] = useState();
+  const [movies, setMovies] = useState({
+    results: [],
+  });
+  const [series, setSeries] = useState({
+    results: [],
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +35,8 @@ const App = () => {
       );
       const seriesData = await series.json();
       setSeries(seriesData);
+
+      setLoading(false);
     };
 
     fetchData();
@@ -45,14 +53,25 @@ const App = () => {
     }
     return [];
   };
-
   return (
-    <div className='m-auto antialised font-sans bg-black text-white'>
-      <Hero {...getFeaturedMovie()} />
-      <NavBar />
-      <Carousel title='Filmes Populares' data={getMovieList()} />
-      <Carousel title='Séries Populares' data={series?.results} />
-      <Carousel title='Placeholder' />
+    <div className="m-auto antialised font-sans bg-black text-white">
+      {loading && (
+        <>
+          <Loading />
+          <NavBar />
+        </>
+      )}
+      {
+        !loading &&(
+          <>
+            <Hero {...getFeaturedMovie()} />
+            <NavBar />
+            <Carousel title="Filmes Populares" data={getMovieList()} />
+            <Carousel title="Séries Populares" data={series?.results} />
+            <Carousel title="Placeholder" />
+          </>
+        )
+      }
       <Footer />
     </div>
   );
