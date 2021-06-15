@@ -1,0 +1,67 @@
+import React, { useState, useEffect } from "react";
+import Loading from "./components/Loading";
+import Hero from "./components/Hero";
+import NavBar from "./components/NavBar";
+import Carroseul from "./components/Carroseul";
+import CONST from "./data/Containes";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Footer from "./components/Footer";
+const App = () => {
+  const { URL, APISTRING } = CONST;
+
+  const [movies, setMovies] = useState({
+    results: [],
+  });
+  const [series, setSeries] = useState({
+    results: [],
+  });
+  const [loading, setLoading] = useState(true);
+  const fetchData = async () => {
+    const response = await fetch(
+      `${URL}/discover/movie?${APISTRING}&language=pt-BR&sort_by=popularity.desc`
+    );
+    const data = await response.json();
+    setMovies(data);
+    const series = await fetch(
+      `${URL}/discover/tv?${APISTRING}&language=pt-BR&sort_by=popularity.desc`
+    );
+    const seriesData = await series.json();
+    setSeries(seriesData);
+    setLoading(false);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const getMovieFeatured = () => movies && movies?.results[0];
+  const getMovieList = () => {
+    if (movies) {
+      const [featured, ...movieList] = movies?.results;
+      return movieList;
+    }
+    return [];
+  };
+  return (
+    <div className="m-auto antialised font-sans bg-black text-white">
+      {loading && (
+        <>
+          <Loading />
+          <NavBar />
+        </>
+      )}
+      {!loading && (
+        <>
+          <Hero {...getMovieFeatured()} />
+          <NavBar />
+          <Carroseul title="Filmes Populares" data={getMovieList()} />
+          <Carroseul title="Séries Populares" data={series?.results} />
+          <Carroseul title="Placeholder" />
+        </>
+      )}
+      <Footer />
+    </div>
+  );
+};
+
+export default App;
