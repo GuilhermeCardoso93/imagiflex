@@ -10,7 +10,6 @@ import cover9 from "../assets/movie9.jpg";
 import cover10 from "../assets/movie10.jpg";
 import cover11 from "../assets/movie11.jpg";
 import cover12 from "../assets/movie12.jpg";
-import cover13 from "../assets/movie13.jpg";
 
 export interface Movie  {
   title?: string;
@@ -18,6 +17,7 @@ export interface Movie  {
   cover?: string;
   poster_path?: string;
   vote_average?: number | string;
+  id?: number | string;
 }
 
 const mockData: Movie[] = [
@@ -80,11 +80,6 @@ const mockData: Movie[] = [
     title: "New Mutantes",
     cover: cover12,
     vote_average: 7,
-  },
-  {
-    title: "X-men 2",
-    cover: cover13,
-    vote_average: 10,
   },
 ];
 
