@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-
+import { useState, useEffect } from "react";
 import emitter from "./utils/eventEmitter";
 
 import CONST from "./data/constants";
@@ -7,6 +6,7 @@ import CONST from "./data/constants";
 import Loading from "./components/Loading";
 import Hero from "./components/Hero";
 import NavBar from "./components/NavBar";
+import Modal from "./components/Modal";
 import Carousel from "./components/Carousel";
 import Footer from "./components/Footer";
 
@@ -42,17 +42,18 @@ const App = () => {
   };
 
   const getTitle = async ({ type, id }: Title) => {
-    const title = await fetch(
-      `${URL}/${type}/${id}${APISTRING}&language=pt-BR&`
-    );
+    setLoading(true);
+    const title = await fetch(`${URL}/${type}/${id}${APISTRING}`);
     const titleData = await title.json();
     setTitle(titleData);
     setLoading(false);
   };
 
+ 
+
   const fetchData = async () => {
     const response = await fetch(
-      `${URL}/discover/movie?${APISTRING}&language=pt-BR&sort_by=popularity.desc`
+      `${URL}/discover/movie?${APISTRING}&sort_by=popularity.desc`
     );
     const data = await response.json();
     setMovies(data);
@@ -67,10 +68,12 @@ const App = () => {
   };
   useEffect(() => {
     emitter.addListener(CONST.EVENTS.PosterClick, getTitle);
+    emitter.addListener(CONST.EVENTS.ModalClose, () => setTitle(undefined));
     fetchData();
+
+    //return emitter.removeAllListeners();
   }, []);
 
-  useEffect(() => title && console.log(title), [title]);
 
   return (
     <div className="m-auto antialised  font-sans bg-black text-white">
@@ -88,10 +91,10 @@ const App = () => {
           <Carousel title="Séries Populares" data={series?.results} />
           <Carousel title="Filmes Populares" data={getMovieList()} />
           <Carousel title="Séries Populares" data={series?.results} />
-          <Carousel title="Placeholder" />
         </>
       )}
       <Footer />
+      {!loading && title && <Modal {...title} />}
     </div>
   );
 };
